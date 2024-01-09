@@ -1,0 +1,47 @@
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Mary_S",
+   "number":"12345"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Bob Marly",
+   "number":"77777"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"",
+   "number":"77877"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Bob Marly",
+   "number":""
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Ada Lovelace",
+   "number":"6897"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Bob Marly",
+   "number":"39-44-5323523"
+}
