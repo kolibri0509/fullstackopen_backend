@@ -55,6 +55,16 @@ const randomId = (max) =>{
 }
 app.post('/api/persons', (request, response) => {
   const body = request.body
+
+  if(!body.name || !body.number){
+    response.statusMessage = 'content missing'
+    return response.status(400).end()
+  } 
+  if(persons.find(p => p.name === body.name)) 
+  return response.status(400).json({error:'name must be unique'})
+
+  if(persons.find(p => p.number === body.number))
+   return response.status(400).json({error:'number must be unique'})
      
   const person = {
     name: body.name,
