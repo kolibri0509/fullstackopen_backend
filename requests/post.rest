@@ -45,3 +45,11 @@ content-type: application/json
    "name":"Bob Marly",
    "number":"39-44-5323523"
 }
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Alice Freindlihe",
+   "number":"39-88-55"
+}
