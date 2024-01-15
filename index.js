@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const {connectToDb, getDb} = require('./mongo')
 
 const app = express()
 
@@ -86,5 +87,15 @@ app.post('/api/persons', (request, response) => {
 
 
 const PORT = process.env.PORT || 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+let db;
+
+connectToDb((err)=>{
+  if(!err){
+    app.listen(PORT,(err) =>{
+      err ? console.log(err):console.log(`Server running on port ${PORT}`)
+  })
+    db = getDb();
+  }else{
+    console.log(`DB connection error: ${err}`)
+  }
+})
