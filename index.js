@@ -1,9 +1,38 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const {connectToDb, getDb} = require('./mongo')
-
 const app = express()
+require('dotenv').config()
+
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false)
+
+const url = process.env.MONGODB_URI
+
+console.log('connecting to', url)
+
+mongoose.connect(url)
+  .then(result => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+})
+
+const Person = mongoose.model('Person', personSchema)
+
+personSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
 
 app.use(express.json())
 app.use(cors())
@@ -13,32 +42,11 @@ morgan.token('body', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
-    { 
-        "id": 1,
-        "name": "Arto Hellas", 
-        "number": "040-123456"
-      },
-      { 
-        "id": 2,
-        "name": "Ada Lovelace", 
-        "number": "39-44-5323523"
-      },
-      { 
-        "id": 3,
-        "name": "Dan Abramov", 
-        "number": "12-43-234345"
-      },
-      { 
-        "id": 4,
-        "name": "Mary Poppendieck", 
-        "number": "39-23-6423122"
-      }
 ]
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-  })
+
 app.get('/api/persons',(request,response)=> {
-    response.json(persons)
+    Person.find({})
+    .then(persons => response.json(persons))
 })
 app.get('/info', (request, response)=> {
     response.send(`<p>Phonebook has info for ${persons.length} people</p>
@@ -85,17 +93,7 @@ app.post('/api/persons', (request, response) => {
   response.json(person)
 })
 
-
-const PORT = process.env.PORT || 3001
-let db;
-
-connectToDb((err)=>{
-  if(!err){
-    app.listen(PORT,(err) =>{
-      err ? console.log(err):console.log(`Server running on port ${PORT}`)
-  })
-    db = getDb();
-  }else{
-    console.log(`DB connection error: ${err}`)
-  }
+const PORT = process.env.PORT 
+app.listen(PORT,(err) =>{
+  err ? console.log(err):console.log(`Server running on port ${PORT}`)
 })
