@@ -17,6 +17,7 @@ let persons = []
 app.get('/api/persons',(request,response)=> {
     Person.find({})
     .then(persons => response.json(persons))
+    .catch(error => next(error))
 })
 app.get('/info', (request, response)=> {
     response.send(`<p>Phonebook has info for ${persons.length} people</p>
@@ -35,6 +36,7 @@ app.get('/api/persons/:id', (request, response)=>{
 app.delete('/api/persons/:id', (request, response)=> {
   const id = request.params.id
   Person.findByIdAndDelete(id).then(result => response.status(204).end())
+  .catch(error => next(error))
 })
 app.post('/api/persons', (request, response) => {
   const body = request.body
@@ -55,6 +57,15 @@ app.post('/api/persons', (request, response) => {
   })
   person.save().then(savedPerson => response.json(savedPerson))
 })
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+  next(error)
+}
+app.use(errorHandler)
 
 const PORT = process.env.PORT 
 app.listen(PORT,(err) =>{
