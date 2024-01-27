@@ -19,23 +19,25 @@ app.get('/api/persons',(request,response)=> {
     .then(persons => response.json(persons))
     .catch(error => next(error))
 })
-// app.get('/info', (request, response, next)=> {
-//     const count = mongoose.Collection.countDocuments({})
-//     response.send(`<p>Phonebook has info for ${count} people</p>
-//     <p>${Date()}</p>`).catch(error => next(error)) 
-// })
-// app.get('/api/persons/:id', (request, response, next)=>{
-//   Person.findById(request.params.id).then(person => {
-//     if(person){
-//       response.json(person)
-//     }else{
-//       response.status(404).end()
-//     }  
-//   })
-//   .catch( error => next(error))
-// })
+app.get('/info', (request, response, next)=> {
+    Person.countDocuments({})
+    .then(count => response.send(`<p>Phonebook has info for ${count} people</p>
+    <p>${Date()}</p>`))
+    .catch(error => next(error)) 
+})
 
-app.delete('/api/persons/:id', (request, response)=> {
+app.get('/api/persons/:id', (request, response, next)=>{
+  Person.findById(request.params.id).then(person => {
+    if(person){
+      response.json(person)
+    }else{
+      response.status(404).end()
+    }  
+  })
+  .catch( error => next(error))
+})
+
+app.delete('/api/persons/:id', (request, response, next)=> {
   const id = request.params.id
   Person.findByIdAndDelete(id).then(result => response.status(204).end())
   .catch(error => next(error))
