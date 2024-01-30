@@ -53,11 +53,7 @@ app.delete('/api/persons/:id', (request, response, next)=> {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-
-  if(!body.name || !body.number){
-    response.statusMessage = 'content missing'
-    return response.status(400).end()
-  }     
+   
   const person = new Person({
     name: body.name,
     number: body.number,

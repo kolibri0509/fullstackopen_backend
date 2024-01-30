@@ -61,3 +61,43 @@ content-type: application/json
    "name":"Fu",
    "number":"3955"
 }
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Fudji",
+   "number":"3955-0000"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Thomas",
+   "number":"897569-00"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Thomas Mann",
+   "number":"897"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Mann",
+   "number":"897-27-36"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Mann",
+   "number":"897-256398"
+}
