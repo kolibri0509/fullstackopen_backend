@@ -6,10 +6,10 @@ content-type: application/json
    "number":"88888"
 }
 ###
-PUT http://localhost:3001/api/persons/65b21f75223c8e7c67f0e830
+PUT http://localhost:3001/api/persons/65b8a7b2c539ca7f81067d02
 content-type: application/json
 
 {
-   "name":"Alice",
+   "name":"Al",
    "number":"88888"
 }

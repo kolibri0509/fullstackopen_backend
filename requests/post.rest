@@ -53,3 +53,11 @@ content-type: application/json
    "name":"Alice Freindlihe",
    "number":"39-88-55"
 }
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+   "name":"Fu",
+   "number":"3955"
+}
